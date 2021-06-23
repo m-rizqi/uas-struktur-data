@@ -24,16 +24,7 @@ public class Main {
                         String name = sc.next();
                         name += " "+sc.nextLine();
                         System.out.print("NIM : ");
-                        boolean valid = false;
-                        int nim = 0;
-                        while(!valid){
-                            try {
-                                nim = sc.nextInt();
-                                valid = true;
-                            } catch (Exception e) {
-                                System.err.println("Please, type only number");
-                            }
-                        }
+                        int nim = getAndValidateNim();
                         System.out.print("Gender(L/P) : ");
                         String in = sc.next();
                         while(!in.equalsIgnoreCase("L") && !in.equalsIgnoreCase("P")){
@@ -68,5 +59,49 @@ public class Main {
         System.out.println("------------------------------------");
         System.out.println();
     }
-    
+    private static void insertDatas(Mahasiswa[] mahasiswas){
+        for (Mahasiswa mahasiswa : mahasiswas) {
+            Node index = list.getFirst();
+            if (mahasiswa.getGender().equals(Gender.L) && mahasiswa.getNim()< index.getMahasiswa().getNim()) {
+                list.insertFirst(mahasiswa);
+            }
+            else if(mahasiswa.getGender().equals(Gender.P) && mahasiswa.getNim()> list.getLast().getMahasiswa().getNim()){
+                list.insertLast(mahasiswa);
+            }
+            else{
+                while (index != null) {
+                    if(mahasiswa.getNim() > index.getMahasiswa().getNim()){
+                        list.insertAfter(index.getMahasiswa(), mahasiswa);
+                        break;
+                    }
+                    index = index.getNext();
+                }
+            }
+        }
+    }
+    private static int getAndValidateNim(){
+        boolean valid = false;
+        int nim = 0;
+        while (!valid) {
+            try {
+                nim = sc.nextInt();
+                valid = true;
+            } catch (Exception e) {
+                System.err.println("Please, type only number");
+            }
+            if (valid) {
+                Node index = list.getFirst();
+                while (index != null) {
+                    if (index.getMahasiswa().getNim() == nim) {
+                        valid = false;
+                        System.err.println("Sorry, that NIM already exists!");
+                        System.err.println("Type another NIM");
+                        break;
+                    }
+                    index = index.getNext();
+                }
+            }
+        }
+        return nim;
+    }
 }

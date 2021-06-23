@@ -116,4 +116,11 @@ public class DoubleLinkedList {
         }
         System.out.println("");
     }
+    
+    public Node getFirst(){
+        return this.first;
+    }
+    public Node getLast(){
+        return this.last;
+    }
 }
