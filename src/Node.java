@@ -8,7 +8,7 @@ class Node{
     }
 
     public void showNode() {
-        System.out.println("{ " + this.mahasiswa.getName()+" }");
+        System.out.println("{ " + this.mahasiswa.getName()+","+this.mahasiswa.getNim()+"("+this.mahasiswa.getGender()+") }");
     }
 
     public Mahasiswa getMahasiswa() {

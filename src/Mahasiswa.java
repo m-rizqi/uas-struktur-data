@@ -1,9 +1,9 @@
 public class Mahasiswa {
     private String name;
     private int nim;
-    private Gender gender;
+    private String gender;
     
-    public Mahasiswa(String name, int nim, Gender gender){
+    public Mahasiswa(String name, int nim, String gender){
         this.name = name;
         this.nim = nim;
         this.gender = gender;
@@ -25,11 +25,11 @@ public class Mahasiswa {
         this.nim = nim;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

@@ -75,6 +75,26 @@ public class DoubleLinkedList {
         return true;
     }
 
+    public boolean insertBefore(Mahasiswa mahasiswa, Mahasiswa mahasiswa2) {
+        Node index = first;
+        while (!index.getMahasiswa().equals(mahasiswa)) {
+            index = index.getNext();
+            if (index == null) {
+                return false;
+            }
+        }
+        Node temp = new Node(mahasiswa2);
+        if (index == first) {
+            first = temp;
+        } else {
+            temp.setPrevious(index.getPrevious());
+            index.getPrevious().setNext(temp);
+        }
+        temp.setNext(index);
+        index.setPrevious(temp);
+        return true;
+    }
+
     public Node delete(Mahasiswa mahasiswa) {
         Node index = first;
         while (!index.getMahasiswa().equals(mahasiswa)) {
@@ -98,7 +118,7 @@ public class DoubleLinkedList {
     }
 
     public void showForward() {
-        System.out.print("List (first-->last): ");
+        System.out.println("List (first-->last): ");
         Node index = first;
         while (index != null) {
             index.showNode();
@@ -108,7 +128,7 @@ public class DoubleLinkedList {
     }
 
     public void showBackward() {
-        System.out.print("List (last-->first): ");
+        System.out.println("List (last-->first): ");
         Node index = last;
         while (index != null) {
             index.showNode();

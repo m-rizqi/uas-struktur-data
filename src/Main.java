@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
     private static DoubleLinkedList list = new DoubleLinkedList();
     private static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         boolean exit = false;
         while (!exit) {
@@ -10,35 +11,30 @@ public class Main {
             System.out.print("Menu yang dipilih : ");
             int menu = sc.nextInt();
             System.out.println();
-            switch(menu){
+            switch (menu) {
                 case 1:
                     System.out.println("<--   I N S E R T   D A T A   -->");
                     System.out.println("---------------------------------");
-                    System.out.println("Ingin memasukkan berapa data sekaligus ?");
+                    System.out.println("Berapa data yang ingin dimasukkan ? ");
                     int datas = sc.nextInt();
-                    Mahasiswa[] mahasiswas = new Mahasiswa[datas];
                     for (int i = 0; i < datas; i++) {
-                        System.out.println("\nMahasiswa "+(i+1));
+                        System.out.println("\nMahasiswa " + (i + 1));
                         System.out.println("-----------------------");
                         System.out.print("Nama : ");
                         String name = sc.next();
-                        name += " "+sc.nextLine();
+                        name += " " + sc.nextLine();
                         System.out.print("NIM : ");
                         int nim = getAndValidateNim();
                         System.out.print("Gender(L/P) : ");
                         String in = sc.next();
-                        while(!in.equalsIgnoreCase("L") && !in.equalsIgnoreCase("P")){
+                        while (!in.equalsIgnoreCase("L") && !in.equalsIgnoreCase("P")) {
                             System.err.println("Please, just type L or P");
                             in = sc.next();
                         }
-                        Gender gender = null;
-                        if(in.equalsIgnoreCase("L")){
-                            gender = Gender.L;
-                        }else{
-                            gender = Gender.P;
-                        }
-                        mahasiswas[i] = new Mahasiswa(name, nim, gender);
+                        String gender = in.equalsIgnoreCase("L") ? "L" : "P";
+                        insertData(new Mahasiswa(name, nim, gender));
                     }
+                    list.showForward();
                     break;
                 case 6:
                     exit = false;
@@ -46,7 +42,8 @@ public class Main {
             }
         }
     }
-    private static void menu(){
+
+    private static void menu() {
         System.out.println("------------------------------------");
         System.out.println("|              M E N U             |");
         System.out.println("------------------------------------");
@@ -59,32 +56,56 @@ public class Main {
         System.out.println("------------------------------------");
         System.out.println();
     }
-    private static void insertDatas(Mahasiswa[] mahasiswas){
-        for (Mahasiswa mahasiswa : mahasiswas) {
-            Node index = list.getFirst();
-            if (mahasiswa.getGender().equals(Gender.L) && mahasiswa.getNim()< index.getMahasiswa().getNim()) {
-                list.insertFirst(mahasiswa);
-            }
-            else if(mahasiswa.getGender().equals(Gender.P) && mahasiswa.getNim()> list.getLast().getMahasiswa().getNim()){
-                list.insertLast(mahasiswa);
-            }
-            else{
-                while (index != null) {
-                    if(mahasiswa.getNim() > index.getMahasiswa().getNim()){
-                        list.insertAfter(index.getMahasiswa(), mahasiswa);
-                        break;
+
+    private static void insertData(Mahasiswa mahasiswa) {
+        Node first = list.getFirst();
+        Node last = list.getLast();
+        if (first == null) {
+            list.insertFirst(mahasiswa);
+        } else {
+            String gender = mahasiswa.getGender();
+            switch (gender) {
+                case "L":
+                    Mahasiswa firstMahs = first.getMahasiswa();
+                    if (firstMahs.getGender().equals("P")) {
+                        list.insertFirst(mahasiswa);
+                    } else {
+                        while (firstMahs.getGender().equals("L")) {
+                            if (mahasiswa.getNim() < firstMahs.getNim()) {
+                                list.insertBefore(firstMahs, mahasiswa);
+                                break;
+                            }
+                            first = first.getNext();
+                        }
                     }
-                    index = index.getNext();
-                }
+                    break;
+                case "P":
+                    Mahasiswa lastMahs = last.getMahasiswa();
+                    if (lastMahs.getGender().equals("L")) {
+                        list.insertLast(mahasiswa);
+                    } else {
+                        while (lastMahs.getGender().equals("P")) {
+                            if (mahasiswa.getNim() > lastMahs.getNim()) {
+                                list.insertAfter(lastMahs, mahasiswa);
+                                break;
+                            }
+                            last = last.getPrevious();
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
-    private static int getAndValidateNim(){
+
+    private static int getAndValidateNim() {
         boolean valid = false;
         int nim = 0;
         while (!valid) {
+            String in = sc.next();
             try {
-                nim = sc.nextInt();
+                nim = Integer.parseInt(in);
                 valid = true;
             } catch (Exception e) {
                 System.err.println("Please, type only number");
