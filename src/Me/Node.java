@@ -1,3 +1,4 @@
+package Me;
 class Node{
     private Mahasiswa mahasiswa;
     private Node next;
@@ -8,7 +9,7 @@ class Node{
     }
 
     public void showNode() {
-        System.out.println("{ " + this.mahasiswa.getName()+","+this.mahasiswa.getNim()+"("+this.mahasiswa.getGender()+") }");
+        System.out.println("         |  { " + this.mahasiswa.getName()+","+this.mahasiswa.getNim()+"("+this.mahasiswa.getGender()+") }");
     }
 
     public Mahasiswa getMahasiswa() {

@@ -1,3 +1,4 @@
+package Me;
 public class DoubleLinkedList {
     private Node first;
     private Node last;
@@ -95,9 +96,9 @@ public class DoubleLinkedList {
         return true;
     }
 
-    public Node delete(Mahasiswa mahasiswa) {
+    public Node delete(int NIM) {
         Node index = first;
-        while (!index.getMahasiswa().equals(mahasiswa)) {
+        while (index.getMahasiswa().getNim() != NIM) {
             index = index.getNext();
             if (index == null) {
                 return null;
@@ -118,23 +119,29 @@ public class DoubleLinkedList {
     }
 
     public void showForward() {
-        System.out.println("List (first-->last): ");
+        System.out.println("List: (first)");
+        System.out.println("         |");
         Node index = first;
         while (index != null) {
             index.showNode();
             index = index.getNext();
         }
-        System.out.println("");
+        System.out.println("         |");
+        System.out.println("         V");
+        System.out.println("      (last)");
     }
 
     public void showBackward() {
-        System.out.println("List (last-->first): ");
+        System.out.println("List: (last)");
+        System.out.println("         |");
         Node index = last;
         while (index != null) {
             index.showNode();
             index = index.getPrevious();
         }
-        System.out.println("");
+        System.out.println("         |");
+        System.out.println("         V");
+        System.out.println("      (first)");
     }
     
     public Node getFirst(){

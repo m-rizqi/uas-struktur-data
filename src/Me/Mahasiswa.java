@@ -1,3 +1,4 @@
+package Me;
 public class Mahasiswa {
     private String name;
     private int nim;
